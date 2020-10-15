@@ -1,0 +1,29 @@
+    When looking at this problem (#7) initially, my first idea was to compare
+the left hand side of each rule to a continually growing list of nonterminal
+symbols.  Then, when that list no longer grew after iterating through the
+entire rules list, I would return the list and use that to extract all the
+usable rules.  However, after thinking more I shot this idea down because of
+all the operations that would be repeated numerous times.  After some thought,
+the way to circumvent this problem was to keep track of the rules that I had
+already successfully used and to keep track of the nonterminal symbols I had
+already tested against each of the rules.
+
+    The key that allowed me to do this was an additional argument to my
+primary function find_nonterms and specifically its recursive call:
+
+find_nonterms ((List.tl a)@nonterms) (set_diff b a_rules) ((List.hd a)::c);;
+
+The first argument keeps track of the nonterminal symbols we have access to
+whose rules we have not yet found.  The second argument keeps track of all the
+rules themselves that we have not yet found the left hand side to.  By
+continually removing rules we have found the left hand side for, we are
+removing unnecessary operations.  Finally, the third argument keeps track of
+all the nonterminal symbols whose rules we have found and is necessary to keep
+the first argument correct.  The first time we call this function, we put the
+starting symbol by itself in a list in order to have it work properly, and we
+call the third argument as [] because we have no used nonterminal symbols to
+keep track of.
+
+    A weakness of my program is that because I wanted to keep track of so
+many things in order to reduce any amount of time complexity, it may have
+worse space complexity than some other ways of solving this problem.
