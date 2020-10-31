@@ -1,0 +1,57 @@
+Homework 2 Assessment
+
+	After completing my implementation of make_matcher, I decided to base 
+my make_parser function on it.  They look very similar because I used many of
+the same concepts across solving both problems.  I did, however, choose to 
+write the entire functions that do most of the work separately because they 
+did need slightly different arguments for make_matcher and make_parser. 
+Additionally, their return values were drastically different, and the 
+conditions by which they return None or Some _ varied at times.  So, instead 
+of trying to figure out a way to use one function to write both, I wrote it 
+slightly differently each time.  However, because my implementation of 
+make_parser is so heavily based off of my implementation of make_matcher, 
+they use the same auxiliary functions.  As such, I only had to define all of 
+the auxiliary functions once.  Additionally, because the functions never call
+each other, I felt that writing two separate functions, though similar, was
+not a terrible idea.
+
+	An issue that my make_matcher function would run into is if it
+encountered a rule in which the nonterminal symbol was the first element in
+the rule.  For example, a rule such as (Expr, [Expr, Binop, Expr]) would not
+be able to be dealt with proprly through my implementation.  My implementation
+uses a depth-first search method, so it would infinitely search Expr.  If the
+rule that includes itself is not first, however, such as in the rule
+(Expr, [T "("; N Expr; T ")"]) would be properly handled by my implementation
+of make_matcher, under one condition.  Any elements preceding the instance of
+itself must not be able to form an infinite loop, if it does then there would
+be a chance that my make_matcher to be unable to solve it.
+
+	An issue that my make_parser function could run into is it possible
+for a grammar to be structured in such a way that my make_parser gets
+distracted by partial matches of frag.  This was circumvented in both my
+make_matcher and my make_parser implementations through a sorting of the 
+rules for a given nonterminal symbol.  However, my comparison function is
+far from perfect, and there are grammars that could be structured in such a
+way that my implementations would be unable to provide the correct output.
+The most obvious solution to this problem in my eyes was simply to refine my
+comparison function used by List.sort.  Unfortunately, I was unable to think 
+of a simplistic solution that would be effective enough to work more than the 
+one I had in place, so I decided it was best to simply leave it as is.  So, the
+best solution I came up for this problem was to recursively decrease the size
+of the starting rules list.  This ensured that if the issue was within the
+first set of rules, it would be caught and the correct answer would be found.
+The only issue with this fix is that the worst-case time complexity is 
+increased.  However, ultimately I believe this trade off of a more accurate
+solution for a loss in time complexity is worth it.
+
+	As both of my implementations use a sort of depth-first search method,
+they both can suffer from the same problem that depth-first search can suffer
+from.  For example, it may take a much longer amount of time to find a 
+solution that a breadth-first search implementation would be able to find
+rather quickly.  Though, ultimately this is a negligible concern.  Finally,
+though not entirely an issue in the same way these others are, the mutually
+recursive functions that my implementations rely on use multiple arguments
+that never change and pass those same arguments repeatedly.  This is present
+in both make_matcher and make_parser, as I based the latter on the former,
+and is potentially a spot for improvement.  Ultimately, however, this should
+not prove to be an issue that would affect the correctness of the output.
