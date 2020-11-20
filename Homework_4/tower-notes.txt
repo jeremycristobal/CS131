@@ -1,0 +1,24 @@
+I executed the following query to get my performance:
+
+?- speedup(Ratio).
+
+Ratio = 0.17943336831059811 ?
+
+Interestingly, my implementation of plain tower is faster than my implementation of tower.
+This is likely due, in part, to the fact that my first implementation of plain_tower took
+a painstakingly long time to work, more than 10 minutes.  So after some time refining it
+and learning more about Prolog, perhaps I used more optimal techniques in my implementation
+that I had not known about when first writing tower.  
+
+However, the third test case (partially filled T and C values) was faster for towerthan 
+plain_tower.  Still, though, for each 5x5 puzzle with C filled and an empty T (which I 
+found from random puzzles on the website), plain_tower was faster.
+
+
+I excuted the following query to get my ambiguous puzzle:
+
+?- ambiguous(5, C, X, Y).
+
+C = counts([4,2,3,2,1],[1,3,2,3,2],[5,3,2,3,1],[1,2,3,2,2])
+X = [[1,2,3,4,5],[2,1,4,5,3],[4,5,2,3,1],[3,4,5,1,2],[5,3,1,2,4]]
+Y = [[1,2,3,4,5],[3,1,4,5,2],[4,5,2,3,1],[2,4,5,1,3],[5,3,1,2,4]] ?
